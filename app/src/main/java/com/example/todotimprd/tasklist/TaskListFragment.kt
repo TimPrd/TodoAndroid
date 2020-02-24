@@ -32,10 +32,18 @@ class TaskListFragment : Fragment() {
         //view.findViewById<RecyclerView>(R.id.recycler_view)
         recycler_view.layoutManager = LinearLayoutManager(activity)
         recycler_view.adapter = TaskListAdapter(taskList)
+        val adapter: TaskListAdapter = recycler_view.adapter as TaskListAdapter
+
         addButton.setOnClickListener{
             this.taskList.add(Task(id = UUID.randomUUID().toString(), title = "Task ${taskList.size + 1}"))
-            (recycler_view.adapter as TaskListAdapter).notifyDataSetChanged()
+            adapter.notifyDataSetChanged()
         }
+
+        adapter.onDeleteClickListener = {
+            this.taskList.remove(it)
+            adapter.notifyDataSetChanged()
+        }
+
 
     }
 

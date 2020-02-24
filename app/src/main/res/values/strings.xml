@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TodoTimPrd</string>
+    <string name="remove">remove</string>
 </resources>
