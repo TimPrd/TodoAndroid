@@ -1,5 +1,6 @@
 package com.example.todotimprd.tasklist
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,11 +8,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todotimprd.R
+import com.example.todotimprd.task.TaskActivity
 import kotlinx.android.synthetic.main.fragment_task_list.*
 import java.util.*
 
 
 class TaskListFragment : Fragment() {
+    private val ADD_TASK_REQUEST_CODE = 1
+
     private val taskList = mutableListOf(
         Task(id = "id_1", title = "Task 1", description = "description 1"),
         Task(id = "id_2", title = "Task 2"),
@@ -35,6 +39,8 @@ class TaskListFragment : Fragment() {
         val adapter: TaskListAdapter = recycler_view.adapter as TaskListAdapter
 
         addButton.setOnClickListener{
+            val intent = Intent(context, TaskActivity::class.java)
+            startActivityForResult(intent, ADD_TASK_REQUEST_CODE)
             this.taskList.add(Task(id = UUID.randomUUID().toString(), title = "Task ${taskList.size + 1}"))
             adapter.notifyDataSetChanged()
         }
