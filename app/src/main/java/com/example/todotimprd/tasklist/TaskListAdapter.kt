@@ -7,10 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.todotimprd.R
 import kotlinx.android.synthetic.main.item_task.view.*
 
-class TaskListAdapter(private val taskList: List<String>) : RecyclerView.Adapter<TaskListAdapter.TaskViewHolder>() {
+class TaskListAdapter(private val taskList: List<Task>) : RecyclerView.Adapter<TaskListAdapter.TaskViewHolder>() {
     inner class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(taskTitle: String) {
-            itemView.task_title.text = taskTitle
+        fun bind(task: Task) {
+            itemView.task_title.text = task.title
+            itemView.task_description.text = task.description
         }
     }
 
