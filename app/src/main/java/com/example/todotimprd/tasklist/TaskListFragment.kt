@@ -61,25 +61,29 @@ class TaskListFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val task = data!!.getSerializableExtra(TaskActivity.TASK_KEY) as Task
+        val task = data!!.getSerializableExtra(TaskActivity.TASK_KEY) as? Task
+
         /*ADD A TASK*/
         if (requestCode == ADD_TASK_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK)
+            if (resultCode == Activity.RESULT_OK && task != null) {
                 this.taskList.add(task)
-            else
-                Toast.makeText(context, getString(R.string.ERROR_CREATE_TASK), Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, getString(R.string.ERROR_CREATE_TASK), Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
         /*EDIT A TASK*/
         if (requestCode == EDIT_TASK_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
+            if (resultCode == Activity.RESULT_OK && task != null) {
                 val index = this.taskList.indexOfFirst {
                     it.id == task.id
                 }
                 this.taskList[index] = task
             }
-            else
-                Toast.makeText(context, getString(R.string.ERROR_EDIT_TASK), Toast.LENGTH_SHORT).show()
-
+            else {
+                Toast.makeText(context, getString(R.string.ERROR_EDIT_TASK), Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
         recycler_view.adapter?.notifyDataSetChanged()
     }
