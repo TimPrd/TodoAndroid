@@ -1,20 +1,22 @@
 package com.example.todotimprd.tasklist
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todotimprd.R
 import com.example.todotimprd.task.TaskActivity
 import kotlinx.android.synthetic.main.fragment_task_list.*
-import java.util.*
+import java.io.Serializable
 
 
 class TaskListFragment : Fragment() {
-    private val ADD_TASK_REQUEST_CODE = 1
 
     private val taskList = mutableListOf(
         Task(id = "id_1", title = "Task 1", description = "description 1"),
@@ -41,8 +43,12 @@ class TaskListFragment : Fragment() {
         addButton.setOnClickListener{
             val intent = Intent(context, TaskActivity::class.java)
             startActivityForResult(intent, ADD_TASK_REQUEST_CODE)
-            this.taskList.add(Task(id = UUID.randomUUID().toString(), title = "Task ${taskList.size + 1}"))
-            adapter.notifyDataSetChanged()
+        }
+
+        adapter.onEditClickListener = {
+            val intent = Intent(context, TaskActivity::class.java)
+            intent.putExtra(EDIT_TASK, it as Serializable)
+            startActivityForResult(intent, EDIT_TASK_REQUEST_CODE)
         }
 
         adapter.onDeleteClickListener = {
@@ -50,6 +56,39 @@ class TaskListFragment : Fragment() {
             adapter.notifyDataSetChanged()
         }
 
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val task = data!!.getSerializableExtra(TaskActivity.TASK_KEY) as Task
+        /*ADD A TASK*/
+        if (requestCode == ADD_TASK_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK)
+                this.taskList.add(task)
+            else
+                Toast.makeText(context, getString(R.string.ERROR_CREATE_TASK), Toast.LENGTH_SHORT).show()
+        }
+        /*EDIT A TASK*/
+        if (requestCode == EDIT_TASK_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                val index = this.taskList.indexOfFirst {
+                    it.id == task.id
+                }
+                this.taskList[index] = task
+            }
+            else
+                Toast.makeText(context, getString(R.string.ERROR_EDIT_TASK), Toast.LENGTH_SHORT).show()
+
+        }
+        recycler_view.adapter?.notifyDataSetChanged()
+    }
+
+
+    companion object {
+        const val ADD_TASK_REQUEST_CODE = 1
+        const val EDIT_TASK_REQUEST_CODE = 2
+        const val EDIT_TASK = "EDIT_TASK"
 
     }
 

@@ -11,16 +11,24 @@ class TaskListAdapter(private val taskList: List<Task>) : RecyclerView.Adapter<T
     inner class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(task: Task) {
-            itemView.task_title.text = task.title
-            itemView.task_description.text = task.description
-            itemView.deleteButton.setOnClickListener {
-                onDeleteClickListener?.invoke(task)
+            itemView.apply {
+                task_title.text = task.title
+                task_description.text = task.description
+                deleteButton.setOnClickListener {
+                    onDeleteClickListener?.invoke(task)
+                }
+                editButton.setOnClickListener {
+                    onEditClickListener?.invoke(task)
+                }
+
             }
+
 
         }
     }
 
     var onDeleteClickListener: ((Task) -> Unit)? = null
+    var onEditClickListener: ((Task) -> Unit)? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {

@@ -12,11 +12,13 @@
         android:layout_height="wrap_content"
         android:layout_weight="100"
         android:orientation="vertical">
+
         <TextView
             android:id="@+id/task_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/holo_blue_bright"
+            android:backgroundTint="@android:color/transparent"
             android:gravity="center"
             tools:text="Title" />
 
@@ -25,13 +27,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/holo_blue_bright"
+            android:backgroundTint="@android:color/transparent"
             android:gravity="center"
             tools:text="Description" />
+
     </LinearLayout>
 
     <ImageButton
+        android:id="@+id/editButton"
+        android:layout_width="30dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:backgroundTint="@android:color/transparent"
+        app:srcCompat="@android:drawable/ic_menu_edit"
+        android:contentDescription="@string/Modify" />
+
+    <ImageButton
         android:id="@+id/deleteButton"
-        android:layout_width="20dp"
+        android:layout_width="30dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:backgroundTint="@android:color/transparent"
@@ -39,4 +52,5 @@
         android:foregroundTint="@android:color/transparent"
         android:tint="@android:color/holo_red_dark"
         app:srcCompat="@android:drawable/ic_menu_delete" />
+
 </LinearLayout>

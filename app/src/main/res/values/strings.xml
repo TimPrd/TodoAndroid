@@ -4,4 +4,12 @@
     <string name="title">Title</string>
     <string name="description">Description</string>
     <string name="add_task">Add task</string>
+    <string name="insert_title_of_the_task">Insert title of the task</string>
+    <string name="insert_description_of_the_task">Insert description</string>
+    <string name="Modify">Modify</string>
+    <string name="ERROR_CREATE_TASK">Cannot create task</string>
+    <string name="ERROR_EDIT_TASK">Cannot edit task</string>
+    <string name="Add_Task">Add new task</string>
+    <string name="Edit_Task">Edit task</string>
+
 </resources>
