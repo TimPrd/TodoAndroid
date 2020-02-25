@@ -1,6 +1,7 @@
 package com.example.todotimprd.tasklist
 
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -30,7 +31,7 @@ class TaskListAdapter(private val taskList: List<Task>) : RecyclerView.Adapter<T
     var onDeleteClickListener: ((Task) -> Unit)? = null
     var onEditClickListener: ((Task) -> Unit)? = null
 
-
+    
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_task, parent, false)
         return TaskViewHolder(itemView)
