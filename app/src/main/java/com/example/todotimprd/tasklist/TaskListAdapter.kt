@@ -1,11 +1,14 @@
 package com.example.todotimprd.tasklist
 
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.graphics.Color
+import android.util.Log
+import android.view.*
+import android.view.GestureDetector.OnDoubleTapListener
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.todotimprd.MainActivity
 import com.example.todotimprd.R
+import com.example.todotimprd.Utils.OnSwipeTouchListener
 import kotlinx.android.synthetic.main.item_task.view.*
 
 class TaskListAdapter(private val taskList: List<Task>) : RecyclerView.Adapter<TaskListAdapter.TaskViewHolder>() {
@@ -21,17 +24,23 @@ class TaskListAdapter(private val taskList: List<Task>) : RecyclerView.Adapter<T
                 editButton.setOnClickListener {
                     onEditClickListener?.invoke(task)
                 }
-
+                setOnTouchListener(object : OnSwipeTouchListener() {
+                    override fun onSwipeLeft() {
+                        onDeleteClickListener?.invoke(task)
+                    }
+                    override fun onSwipeRight() {
+                        onArchiveClickListener?.invoke(task)
+                    }
+                })
             }
-
-
         }
     }
 
     var onDeleteClickListener: ((Task) -> Unit)? = null
     var onEditClickListener: ((Task) -> Unit)? = null
+    var onArchiveClickListener: ((Task) -> Unit)? = null
 
-    
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_task, parent, false)
         return TaskViewHolder(itemView)

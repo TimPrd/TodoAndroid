@@ -17,6 +17,7 @@ import com.example.todotimprd.network.Api
 import com.example.todotimprd.network.TasksRepository
 import com.example.todotimprd.task.TaskActivity
 import kotlinx.android.synthetic.main.fragment_task_list.*
+import kotlinx.android.synthetic.main.item_task.*
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
@@ -48,6 +49,7 @@ class TaskListFragment : Fragment() {
         recycler_view.adapter = TaskListAdapter(this.tasks)
         val adapter: TaskListAdapter = recycler_view.adapter as TaskListAdapter
 
+
         addButton.setOnClickListener{
             val intent = Intent(context, TaskActivity::class.java)
             startActivityForResult(intent, ADD_TASK_REQUEST_CODE)
@@ -60,12 +62,18 @@ class TaskListFragment : Fragment() {
         }
 
         adapter.onDeleteClickListener = {
-            this.tasks.remove(it)
-            adapter.notifyDataSetChanged()
             lifecycleScope.launch {
                 tasksRepository.delete(it)
             }
         }
+
+        adapter.onArchiveClickListener = {
+            lifecycleScope.launch {
+                tasksRepository.archive(it)
+            }
+        }
+
+
 
         tasksRepository.taskList.observe(this, Observer {
             tasks.clear()

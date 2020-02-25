@@ -9,5 +9,5 @@ data class Task(
     @field:Json(name = "title")
     val title: String,
     @field:Json(name = "description")
-    val description: String = ""
+    val description: String = "",
 ) : Serializable

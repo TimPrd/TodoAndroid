@@ -1,6 +1,7 @@
 package com.example.todotimprd.task
 
 import android.app.Activity
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -22,6 +23,7 @@ class TaskActivity : AppCompatActivity() {
         setContentView(R.layout.activity_task)
 
         val editedTask: Task? = intent.getSerializableExtra(EDIT_TASK) as? Task
+
 
         add_title.setText(editedTask?.title)
         add_description.setText(editedTask?.description)

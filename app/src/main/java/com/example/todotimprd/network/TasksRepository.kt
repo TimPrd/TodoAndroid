@@ -1,9 +1,12 @@
 package com.example.todotimprd.network
 
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.todotimprd.tasklist.Task
+import com.example.todotimprd.tasklist.TaskListAdapter
+import com.example.todotimprd.tasklist.TaskListFragment
 
 class TasksRepository {
     private val tasksWebService = Api.taskService
@@ -47,6 +50,16 @@ class TasksRepository {
             // on modifie la valeur encapsulée, ce qui va notifier ses Observers et donc déclencher leur callback
             _taskList.value = fetchedTasks
         }
+    }
+
+    suspend fun archive(task: Task) {
+        val tasksResponse = tasksWebService.archiveTask(task.id)
+        if (tasksResponse.isSuccessful) {
+            val editableList = _taskList.value.orEmpty().toMutableList()
+            if (editableList.contains(task)) editableList.remove(task)
+            _taskList.value = editableList
+        }
+
     }
 
 }
